@@ -110,6 +110,7 @@ func calNewWorkDiffByTime(preSanBlockTime *big.Int, lastBlockTime *big.Int, last
 	actualTimespan.Sub(lastBlockTime, preSanBlockTime)
 	actualTimespan = actualTimespan.Div(actualTimespan, big.NewInt(1e9))
 
+	//实际使用时间小于预期时间的1/4，实际使用时间除以4；实际使用时间大于预期时间的4倍，实际使用时间乘以4
 	if actualTimespan.Cmp(bn.Div(bn, big.NewInt(4))) == -1 {
 		actualTimespan.Div(bn, big.NewInt(4))
 	} else if actualTimespan.Cmp(bn.Mul(bn, big.NewInt(4))) == 1 {
@@ -119,14 +120,17 @@ func calNewWorkDiffByTime(preSanBlockTime *big.Int, lastBlockTime *big.Int, last
 
 	lastTarget := lastBlockDiffculty.DiffToTarget().Big()
 
+	// 用的时间越长，说明难度越大，难度值越小，所以增大难度值，减小难度，可以减少出块的时间间隔
 	// formula： target = lastTarget * actualTime / expectTime
 	newTarget := new(big.Int).Mul(lastTarget, actualTimespan)
 	newTarget.Div(newTarget, bn)
 
+	// 设置最大难度值，也即设置最小难度
 	if newTarget.Cmp(mainPowLimit) > 0 {
 		newTarget.Set(mainPowLimit)
 	}
 
+	//fmt.Println("mainPowLimit", common.BigToDiff(mainPowLimit).DiffToTarget())
 	return common.BigToDiff(newTarget)
 }
 

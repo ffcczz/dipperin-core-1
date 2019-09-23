@@ -28,23 +28,9 @@ import (
 func TestGetTarget(t *testing.T) {
 
 	// CalNewWorkDiff if testing env
-	firstTime, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 10:32:45")
-	lastTime, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 11:11:31")
-	prevB := &Block{
-		header: &Header{},
-		body:   &Body{},
-	}
-	header1 := &Header{Number: 4319, Diff: common.HexToDiff("0x1effffff"), TimeStamp: big.NewInt(lastTime.Unix())}
-	prevB.header = header1
-
-	prevSpanB := &Block{header: &Header{},
-		body: &Body{},
-	}
-	header2 := &Header{Number: 1, Diff: common.HexToDiff("0x1effffff"), TimeStamp: big.NewInt(firstTime.Unix())}
-	prevSpanB.header = header2
-
-	result := calNewWorkDiffByTime(prevSpanB.Timestamp(), prevB.Timestamp(), prevB.Difficulty())
-	fmt.Println(result.Hex())
+    getTargetDiff("2018-09-20 11:11:31")
+    getTargetDiff("2018-09-20 12:11:31")
+    getTargetDiff("2018-09-20 18:11:31")
 
 	//firstTime2, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 10:32:45")
 	//lastTime2, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 10:33:31")
@@ -63,6 +49,27 @@ func TestGetTarget(t *testing.T) {
 	//
 	//result = calNewWorkDiffByTime(prevSpanB2.Timestamp(), prevB2.Timestamp(), prevB2.Difficulty())
 	//fmt.Println(result.Hex())
+}
+
+func getTargetDiff(lastTimeStr string)  {
+	firstTime, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 10:32:45")
+	lastTime, _ := time.Parse("2006-01-02 15:04:05", lastTimeStr)
+	fmt.Println("lastTime", lastTime)
+	prevB := &Block{
+		header: &Header{},
+		body:   &Body{},
+	}
+	header1 := &Header{Number: 4319, Diff: common.HexToDiff("0x1effffff"), TimeStamp: big.NewInt(lastTime.Unix())}
+	prevB.header = header1
+
+	prevSpanB := &Block{header: &Header{},
+		body: &Body{},
+	}
+	header2 := &Header{Number: 1, Diff: common.HexToDiff("0x1effffff"), TimeStamp: big.NewInt(firstTime.Unix())}
+	prevSpanB.header = header2
+
+	result := calNewWorkDiffByTime(prevSpanB.Timestamp(), prevB.Timestamp(), prevB.Difficulty())
+	fmt.Println(result.Hex(), result.DiffToTarget(), common.HexToDiff("0x1effffff").DiffToTarget())
 }
 
 func TestLastPeriodBlockNum(t *testing.T) {

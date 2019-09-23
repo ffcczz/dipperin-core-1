@@ -76,6 +76,7 @@ func TestDifficulty_DiffToTarget(t *testing.T) {
 	testdiff := HexToDiff("0x1743eca9")
 	////testdiff := HexToDiff("0x2043eca9")
 	assert.Equal(t, HexToHash("0x00000000000000000043eca90000000000000000000000000000000000000000"), testdiff.DiffToTarget())
+
 	//testdiff := HexToDiff("0x1d00ffff")
 	//fmt.Println(testdiff.DiffToTarget().Hex())
 	testdiff2 := HexToDiff("0x172a4e2f")
@@ -86,7 +87,12 @@ func TestDifficulty_DiffToTarget(t *testing.T) {
 	c := big.NewInt(0).Div(b, big.NewInt(600))
 	d, _ := new(big.Int).SetString("47626199004514230818", 10)
 	assert.Equal(t, d, c)
-}
+
+	testdiff4 := HexToDiff("0x12")
+	dif := HexToDiff(Bytes2Hex([]byte{0x11,0x30,0x30,0x30}))
+	fmt.Println("testdiff4 hexToDiff " , testdiff4, "dif",  dif, dif.DiffToTarget())
+	//fmt.Println("testdiff4", testdiff4, testdiff4.DiffToTarget())
+	}
 
 func BenchmarkDifficulty_DiffToTarget(b *testing.B) {
 	testdiff := HexToDiff("0x1743eca9")
@@ -240,6 +246,8 @@ func TestAddressFuncs(t *testing.T) {
 func TestDiffFuncs(t *testing.T) {
 	diff := Difficulty{0x12}
 	var diff2 Difficulty
+	fmt.Println("diff", diff.Hex(), diff.DiffToTarget().Big())
+	fmt.Println("bigToDiff", BigToDiff(new(big.Int).SetInt64(0x12)))
 	assert.NoError(t, util.ParseJson(util.StringifyJson(diff), &diff2))
 	assert.True(t, diff.Equal(diff2))
 
