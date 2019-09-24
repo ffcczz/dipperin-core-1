@@ -92,12 +92,13 @@ func (p *Processor) DoCreate(eData *ExtraDataForContract) (reflect.Value, error)
 	}
 
 	contractType := eData.ContractAddress.GetAddressTypeStr()
-	log.Debug("Processor doCreate")
+	//log.Debug("Processor doCreate")
 	ct, ctErr := GetContractTempByType(contractType)
 	if ctErr != nil {
 		return reflect.Value{}, ctErr
 	}
 	nContract := reflect.New(ct)
+	log.Debug("Processor#DoCreate", "ct", ct, "nContract", nContract)
 	if err := util.ParseJson(eData.Params, nContract.Interface()); err != nil {
 		return reflect.Value{}, err
 	}
@@ -108,6 +109,7 @@ func (p *Processor) DoCreate(eData *ExtraDataForContract) (reflect.Value, error)
 		return reflect.Value{}, ContractWithoutValidatorErr
 	}
 	vResult := vMethod.Call([]reflect.Value{})
+	log.Debug("Processor#DoCreate", "vMethod", vMethod, "vResult", vResult, "len(vResult)", len(vResult))
 	if len(vResult) == 0 {
 		return reflect.Value{}, ContractValidatorRetNilErr
 	}
@@ -151,7 +153,9 @@ func (p *Processor) Run(executorAddress common.Address, eData *ExtraDataForContr
 	nContract.Elem().FieldByName("CurBlockHeight").Set(reflect.ValueOf(p.blockHeight))
 
 	tmpF = nContract.Elem().FieldByName("AccountDB")
+	// todo 未理解  为什么要存储p.accountDB
 	aDBV := reflect.ValueOf(p.accountDB)
+	log.Debug("Processor#Run", "aDBV", aDBV, "p.accountDB", p.accountDB)
 	if tmpF.CanSet() && aDBV.IsValid() {
 		tmpF.Set(reflect.ValueOf(p.accountDB))
 	}
@@ -166,6 +170,8 @@ func (p *Processor) Run(executorAddress common.Address, eData *ExtraDataForContr
 	if ctmErr != nil {
 		return reflect.Value{}, ctmErr
 	}
+
+	// todo  未理解  以后再看 Ashbur
 	codec := NewParamsCodec(bufio.NewReader(bytes.NewBufferString(eData.Params)))
 	rValue, pErr := codec.ParseRequestArguments(mArgs)
 	if pErr != nil {

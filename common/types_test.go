@@ -89,10 +89,10 @@ func TestDifficulty_DiffToTarget(t *testing.T) {
 	assert.Equal(t, d, c)
 
 	testdiff4 := HexToDiff("0x12")
-	dif := HexToDiff(Bytes2Hex([]byte{0x11,0x30,0x30,0x30}))
-	fmt.Println("testdiff4 hexToDiff " , testdiff4, "dif",  dif, dif.DiffToTarget())
+	dif := HexToDiff(Bytes2Hex([]byte{0x11, 0x30, 0x30, 0x30}))
+	fmt.Println("testdiff4 hexToDiff ", testdiff4, "dif", dif, dif.DiffToTarget())
 	//fmt.Println("testdiff4", testdiff4, testdiff4.DiffToTarget())
-	}
+}
 
 func BenchmarkDifficulty_DiffToTarget(b *testing.B) {
 	testdiff := HexToDiff("0x1743eca9")

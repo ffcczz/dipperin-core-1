@@ -967,21 +967,21 @@ func (service *VenusFullChainService) VerifierStatus(addr common.Address) (verif
 	}
 	stake, err = state.GetStake(addr)
 	if err != nil {
-		if err.Error() != "account does not exist" && err.Error() != "stake not sufficient" {
+		if err.Error() != g_error.AccountNotExist.Error() && err.Error() != "stake not sufficient" {
 			return
 		}
 	}
 
 	balance, err = state.GetBalance(addr)
 	if err != nil {
-		if err.Error() != "account does not exist" {
+		if err.Error() != g_error.AccountNotExist.Error() {
 			return
 		}
 	}
 
 	lastElect, err := state.GetLastElect(addr)
 	if err != nil {
-		if err.Error() != "account does not exist" {
+		if err.Error() != g_error.AccountNotExist.Error() {
 			return
 		}
 	}
@@ -1010,7 +1010,7 @@ func (service *VenusFullChainService) VerifierStatus(addr common.Address) (verif
 
 	reputation, err = service.CurrentReputation(addr)
 	if err != nil {
-		if err.Error() == "account does not exist" || err.Error() == "stake not sufficient" {
+		if err.Error() == g_error.AccountNotExist.Error() || err.Error() == "stake not sufficient" {
 			err = nil
 		}
 	}

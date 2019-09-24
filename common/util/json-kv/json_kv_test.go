@@ -19,6 +19,7 @@ package json_kv
 import (
 	"fmt"
 	"github.com/dipperin/dipperin-core/common/util"
+	"github.com/dipperin/dipperin-core/third-party/log"
 	"github.com/stretchr/testify/assert"
 	"math/big"
 	"reflect"
@@ -129,7 +130,8 @@ func TestKV2JsonStr(t *testing.T) {
 		"dis":            "10002",
 	}
 
-	_, err := KV2JsonStr(kv)
+	kvStr1, err := KV2JsonStr(kv)
+	log.Debug("TestKV2JsonStr ", "kvStr1", kvStr1)
 
 	assert.Error(t, err)
 
@@ -161,9 +163,11 @@ func TestKV2JsonStr(t *testing.T) {
 
 	s1, err := KV2JsonStr(kv3)
 
+	log.Debug("TestKV2JsonStr ", "s1", s1)
 	assert.NoError(t, err)
 
 	rKv3, err := JsonStr2KV(s1)
+
 
 	assert.NoError(t, err)
 

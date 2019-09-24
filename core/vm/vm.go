@@ -75,7 +75,7 @@ func (vm *VM) Call(caller resolver.ContractRef, addr common.Address, input []byt
 	defer func() {
 		if er := recover(); er != nil {
 			log.Error("VM#Call err recover ", "err ", er)
-			ret,leftOverGas, err = nil,gas,er.(error)
+			ret, leftOverGas, err = nil, gas, er.(error)
 		}
 	}()
 	if vm.vmConfig.NoRecursion && vm.depth > 0 {

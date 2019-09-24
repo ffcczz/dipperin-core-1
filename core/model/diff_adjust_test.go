@@ -28,9 +28,9 @@ import (
 func TestGetTarget(t *testing.T) {
 
 	// CalNewWorkDiff if testing env
-    getTargetDiff("2018-09-20 11:11:31")
-    getTargetDiff("2018-09-20 12:11:31")
-    getTargetDiff("2018-09-20 18:11:31")
+	getTargetDiff("2018-09-20 11:11:31")
+	getTargetDiff("2018-09-20 12:11:31")
+	getTargetDiff("2018-09-20 18:11:31")
 
 	//firstTime2, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 10:32:45")
 	//lastTime2, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 10:33:31")
@@ -51,7 +51,7 @@ func TestGetTarget(t *testing.T) {
 	//fmt.Println(result.Hex())
 }
 
-func getTargetDiff(lastTimeStr string)  {
+func getTargetDiff(lastTimeStr string) {
 	firstTime, _ := time.Parse("2006-01-02 15:04:05", "2018-09-20 10:32:45")
 	lastTime, _ := time.Parse("2006-01-02 15:04:05", lastTimeStr)
 	fmt.Println("lastTime", lastTime)

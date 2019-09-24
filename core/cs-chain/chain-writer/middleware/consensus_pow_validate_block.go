@@ -44,7 +44,7 @@ import (
 func ValidateBlockNumber(c *BlockContext) Middleware {
 	return func() error {
 		if c.Chain == nil || c.Block == nil {
-			log.Error("ValidateBlockNumber ", "c.Chain == nil", c.Chain == nil, "c.Block == nil",  c.Block == nil)
+			log.Error("ValidateBlockNumber ", "c.Chain == nil", c.Chain == nil, "c.Block == nil", c.Block == nil)
 			return errors.New("chain or block cannot be null")
 		}
 		cur := c.Chain.CurrentBlock()

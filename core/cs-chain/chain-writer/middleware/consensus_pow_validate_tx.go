@@ -266,6 +266,7 @@ func validCancelTx(tx model.AbstractTransaction, chain ChainInterface, blockHeig
 	if err != nil {
 		return err
 	}
+	// lastBlock == 0表示Not Registered 和 Registered ; lastBlock != 0 表示  Canceled 和  Unstaked
 	if lastBlock != 0 {
 		return state_processor.SendRegisterTxFirst
 	}
@@ -327,6 +328,7 @@ func validEvidenceTime(tx model.AbstractTransaction, chain ChainInterface, block
 		return err
 	}
 	targetNormal := cs_crypto.GetNormalAddressFromEvidence(*target)
+	// 最后当选验证者日期
 	lastBlock, err := state.GetLastElect(targetNormal)
 	if err != nil {
 		return err
@@ -336,9 +338,11 @@ func validEvidenceTime(tx model.AbstractTransaction, chain ChainInterface, block
 		// lastBlock < (current +1) < (lastBlock/SlotSize + StakeLockSlot)*SlotSize
 		current := chainReader.CurrentBlock().Number()
 		slotSpace := (current+1)/config.SlotSize - lastBlock/config.SlotSize
+		// 超过退押日期
 		if slotSpace > config.StakeLockSlot {
 			return errors.New("invalid evidence time")
 		}
+		// 尚未到该验证者验证的日期
 		if current < lastBlock {
 			return errors.New("invalid evidence time")
 		}
@@ -372,6 +376,7 @@ func conflictVote(tx model.AbstractTransaction, chain ChainInterface, blockHeigh
 	}
 
 	// Test target match voter
+	// 判断举报地址是否与交易接收者地址一致   是否有必要？
 	if !voteA.GetAddress().IsEqual(cs_crypto.GetNormalAddressFromEvidence(*tx.To())) {
 		return errors.New("invalid to address")
 	}
