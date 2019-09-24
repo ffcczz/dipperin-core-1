@@ -105,7 +105,6 @@ const (
 	dataTypeArr
 )
 
-
 //  todo  未理解  找时间看看 Ashbur
 func KV2JsonObj(kv map[string]string, result interface{}) error {
 	str, err := KV2JsonStr(kv)

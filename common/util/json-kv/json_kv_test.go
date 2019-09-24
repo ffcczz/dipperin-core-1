@@ -168,7 +168,6 @@ func TestKV2JsonStr(t *testing.T) {
 
 	rKv3, err := JsonStr2KV(s1)
 
-
 	assert.NoError(t, err)
 
 	assert.True(t, reflect.DeepEqual(kv3, rKv3))
