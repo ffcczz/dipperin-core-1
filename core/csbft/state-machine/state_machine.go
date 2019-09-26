@@ -204,6 +204,7 @@ Enter New Round
 func (bs *BftState) enterNewRound(height, round uint64) {
 	bs.Step = model2.RoundStepNewRound
 	// if the status is moved from new height, then the state should not be added by 1, otherwise it would not be the 0th verifier who does the proposition of block
+	//  按道理应该是串行的不至于会出现高度不相等的问题
 	if height != bs.Height {
 		//panic("Shouldn't call new round before new height")
 		log.PBft.Info("[BftState-enterNewRound]:error", "height", height, "ownHeight", bs.Height)

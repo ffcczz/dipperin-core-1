@@ -215,6 +215,7 @@ func (vm *VM) create(caller resolver.ContractRef, data []byte, gas uint64, value
 	snapshot := vm.state.Snapshot()
 	vm.state.CreateAccount(address)
 
+	// 此处转账没有通过abi来进行控制，控制全在虚拟机里面？
 	vm.Transfer(vm.state, caller.Address(), address, value)
 
 	// initialise a new contract and set the data that is to be used by the
@@ -312,7 +313,7 @@ type Context struct {
 	//callGasTemp uint64
 
 	// CanTransfer returns whether the account contains
-	// sufficient ether to transfer the value
+	// sufficient DIP to transfer the value
 	CanTransfer CanTransferFunc
 	// Transfer transfers ether from one account to the other
 	Transfer TransferFunc

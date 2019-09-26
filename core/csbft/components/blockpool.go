@@ -207,9 +207,9 @@ func (p *BlockPool) doAddBlock(nb newBlockWithResultErr) {
 			nb.resultChan <- errors.New("dul block")
 			return
 		}
-		log.PBft.Info("the oldB in block pool", "blockHash", oldB.Hash().Hex())
+		//log.PBft.Info("the oldB in block pool", "blockHash", oldB.Hash().Hex())
 	}
-	log.PBft.Info("the add block in block pool", "blockHash", b.Hash().Hex())
+	log.PBft.Info("the add block in block pool", "blockHash", b.Hash().Hex(), "blockPool block count", len(p.blocks))
 	p.blocks = append(p.blocks, b)
 	log.PBft.Debug("pool length", "height", p.height, "len", len(p.blocks))
 
@@ -265,11 +265,12 @@ func (p *BlockPool) doGetBlock(getter *blockPoolGetter) {
 		// get match hash block
 	} else {
 		for _, b := range p.blocks {
-			log.PBft.Info("block in block Pool", "id", b.Hash().Hex())
 			if b.Hash().IsEqual(getter.blockHash) {
+				log.PBft.Info("block in block Pool", "id", b.Hash().Hex())
 				result = b
 				break
 			}
+			log.PBft.Info("cannot find the block hash in blockPool", "id", getter.blockHash.Hex())
 		}
 	}
 	getter.resultChan <- result

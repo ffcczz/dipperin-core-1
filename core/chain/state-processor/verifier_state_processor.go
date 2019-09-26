@@ -135,6 +135,7 @@ func (state *AccountStateDB) processStakeTx(tx model.AbstractTransaction) (err e
 
 	//judging the balance of the deposit
 	stake, err := state.GetStake(sender)
+	log.Debug("AccountStateDB#processStakeTx", "stake", stake)
 	minStake := int64(model.StakeValMin)
 	if err != nil {
 		return
@@ -180,11 +181,13 @@ func (state *AccountStateDB) processCancelTx(tx model.AbstractTransaction, num u
 	if err != nil {
 		return err
 	}
+
+	// lastBlock != 0 && stake == 0 表示已经取消质押
 	if lastBlock != 0 {
 		return SendRegisterTxFirst
 	}
 
-	//Process
+	//Process  只有取消交易时才会被设置，也即num表示发送取消交易时的块高
 	err = state.SetLastElect(sender, num)
 	if err != nil {
 		return

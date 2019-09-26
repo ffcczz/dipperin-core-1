@@ -95,6 +95,7 @@ func (in *WASMInterpreter) Run(vm *VM, contract *Contract, create bool) (ret []b
 
 	//　life方法注入新建虚拟机
 	solver := resolver.NewResolver(vm, contract, in.state)
+	// 虚拟机部分待理解
 	lifeVm, err := exec.NewVirtualMachine(contract.Code, in.config, solver, nil)
 	if err != nil {
 		log.Info("NewVirtualMachine failed", "err", err)
@@ -317,6 +318,7 @@ func findParams(vm *exec.VirtualMachine, abi []byte, funcName string, inputList 
 		input := inputList[i].([]byte)
 		switch v.Type {
 		case "string":
+			// todo 内存管理部分，待研究
 			pos := resolver.MallocString(vm, string(input))
 			params = append(params, pos)
 		case "int8", "uint8":

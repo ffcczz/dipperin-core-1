@@ -65,6 +65,7 @@ func (st *StateTransition) useGas(amount uint64) error {
 
 func (st *StateTransition) buyGas() error {
 	msgVal := new(big.Int).Mul(new(big.Int).SetUint64(st.msg.Gas()), st.gasPrice)
+	// 为了解决constant方法gas不够的问题？
 	if !st.msg.CheckNonce() {
 		st.state.AddBalance(st.msg.From(), msgVal)
 	}
@@ -76,6 +77,7 @@ func (st *StateTransition) buyGas() error {
 		return g_error.ErrInsufficientBalanceForGas
 	}
 	log.Info("GasPool Remain", "gasPool", *st.gp, "gasLimit", st.msg.Gas())
+	// 交易所用gas大于区块剩余能容纳的最大gas
 	if *st.gp < st.msg.Gas() {
 		return g_error.ErrGasLimitReached
 	}

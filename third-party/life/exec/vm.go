@@ -130,6 +130,7 @@ func ImportGasFunc(vm *VirtualMachine, frame *Frame) (uint64, error) {
 // NewVirtualMachine instantiates a virtual machine for a given WebAssembly module, with
 // specific execution options specified under a VMConfig, and a WebAssembly module import
 // resolver.
+// todo 未看  找时间看一下
 func NewVirtualMachine(
 	code []byte,
 	config VMConfig,

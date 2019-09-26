@@ -376,7 +376,7 @@ func conflictVote(tx model.AbstractTransaction, chain ChainInterface, blockHeigh
 	}
 
 	// Test target match voter
-	// 判断举报地址是否与交易接收者地址一致   是否有必要？
+	// 判断举报地址是否与转换后的交易接收者地址一致
 	if !voteA.GetAddress().IsEqual(cs_crypto.GetNormalAddressFromEvidence(*tx.To())) {
 		return errors.New("invalid to address")
 	}
