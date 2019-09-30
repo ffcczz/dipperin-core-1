@@ -34,6 +34,7 @@ func InsertBlock(c *BlockContext) Middleware {
 
 		log.Info("insert block", "cur number", curBlock.Number(), "new number", c.Block.Number())
 		// check block number
+		// todo  如果回滚到了curBlock.Number() - 1的前一个块，那个这里肯定报错，为什么还要回滚到curBlock.Number() - 1的前一个块呢？   ashbur
 		if c.Chain.CurrentBlock().Number()+1 != c.Block.Number() {
 			return errors.New("wrong number")
 		}

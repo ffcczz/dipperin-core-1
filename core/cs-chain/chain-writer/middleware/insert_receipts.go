@@ -32,6 +32,7 @@ func ValidGasUsedAndReceipts(c *BlockContext) Middleware {
 		log.Info("Insert block receipts", "cur number", curBlock.Number(), "new number", c.Block.Number())
 		receipts := make(model2.Receipts, 0, c.Block.TxCount())
 		var accumulatedGas uint64
+		// 直接迭代交易取出累计的gas使用量，可以保证一旦交易顺序变化，获得的gas使用量会有问题，从而报错
 		if err := c.Block.TxIterator(func(i int, transaction model.AbstractTransaction) error {
 			receipt := transaction.GetReceipt()
 			if receipt == nil {

@@ -180,6 +180,7 @@ func (register RegisterDB) processSlot(preBlock model.AbstractBlock) error {
 		return err
 	}
 
+	// todo 如果是空块或者是更换点则更新slot和最近一个更换点信息  ashbur
 	//update slot and last change point info if the block is special or the change point
 	if register.IsChangePoint(preBlock, false) {
 		if err = register.saveSlotData(slot + 1); err != nil {

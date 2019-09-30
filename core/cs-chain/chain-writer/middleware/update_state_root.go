@@ -32,6 +32,7 @@ func UpdateStateRoot(c *BlockContext) Middleware {
 			return err
 		}
 
+		// todo 可细看一下逻辑 ashbur
 		if _, err := processor.Commit(); err != nil {
 			return err
 		}

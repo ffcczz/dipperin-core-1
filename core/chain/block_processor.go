@@ -151,6 +151,7 @@ func (state *BlockProcessor) processCommitList(block model.AbstractBlock, isProc
 		}
 
 		// boot node verifier does't process verification
+		// todo  bootnode verifier 只有一个会被打包进verifier嘛？  ashbur
 		verifications := block.GetVerifications()
 		if preBlock.IsSpecial() {
 			verifications = verifications[1:]
@@ -174,6 +175,7 @@ func (state *BlockProcessor) processCommitList(block model.AbstractBlock, isProc
 			var firstStateBySlot *state_processor.AccountStateDB
 			lastPoint := state.fullChain.GetLastChangePoint(block)
 
+			//  todo 未理解  ashbur
 			//If the previous block is also a change point, then there is only one block in this round.
 			if state.fullChain.IsChangePoint(preBlock, false) {
 				firstStateBySlot = state.AccountStateDB
